@@ -1,0 +1,87 @@
+---
+import MainHead from '../components/MainHead.astro'
+
+const DATOCMS_ACCESS_TOKEN = "82a90d525bd1ccdc0eebf74b1d5255"
+const response = await fetch(
+	'https://graphql.datocms.com/',
+	{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			'Authorization': `Bearer ${DATOCMS_ACCESS_TOKEN}`
+		},
+		body: JSON.stringify({
+			query: `{
+				allBooks {
+					id
+    				title
+    				_status
+    				_firstPublishedAt
+  				}
+			}`
+		})
+	}
+)
+const books = (await response.json()).data.allBooks
+const MP_ACCESS_TOKEN = "TEST-7507661374069901-021317-f56dc83f734c864d08c1c2e32a987579-403862312"
+const payment = await fetch(
+	`https://api.mercadopago.com/checkout/preferences?access_token=${MP_ACCESS_TOKEN}`,
+	{
+		method: 'POST',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			"additional_info": {
+				"items": [{
+					"id": "PR0001",
+					"title": "Point Mini",
+					"description": "Producto Point para cobros con tarjetas mediante bluetooth",
+					"picture_url": "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+					"category_id": "electronics",
+					"quantity": 1,
+					"unit_price": 58.8
+				}],
+				"payer": {
+					"first_name": "Test",
+					"last_name": "Test",
+					"phone": {
+						"area_code": 11,
+						"number": "987654321"
+					},
+					"address": {}
+				}
+			},
+			"description": "Payment for product",
+			"external_reference": "MP0001",
+			"installments": 1,
+			"metadata": {},
+			"order": {
+				"type": "mercadolibre"
+			},
+			"payer": {
+				"entity_type": "individual",
+				"type": "customer",
+				"identification": {}
+			},
+			"payment_method_id": "visa",
+			"transaction_amount": 58.8	
+		})
+	}
+)
+console.log('payment', payment)
+---
+
+<html lang="es">
+	<head>
+		<MainHead description="Jeanine White: Developer, Speaker, and Writer..." />
+
+		<script src="https://sdk.mercadopago.com/js/v2"></script>
+	</head>
+	<body>
+		<main>
+			{books.map(book => <p>{book.title}</p>)}
+		</main>
+	</body>
+</html>

@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --t-bg: #fbead3;
+}
+
+body {
+    background-color: var(--t-bg); 
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@example/portfolio-svelte",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-svelte": "^0.3.1",
+    "astro": "^0.22.20",
+    "tailwindcss": "^3.0.22"
+  },
+  "dependencies": {
+    "mercadopago": "^1.5.12"
+  }
+}
