@@ -3,5 +3,7 @@ module.exports = {
     './public/**/*.html',
     './src/**/*.{astro,js,svelte,ts,tsx}',
   ],
-  // more options here
+  plugins: [
+    require('@tailwindcss/typography'),
+  ]
 };

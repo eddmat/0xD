@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import { Markdown } from 'astro/components'
+import Product from '../components/Product.astro'
 
-const token = "82a90d525bd1ccdc0eebf74b1d5255"
+const token = import.meta.env.DATO_API_TOKEN 
 const response = await fetch(
 	'https://graphql.datocms.com/',
 	{
@@ -22,13 +22,11 @@ const response = await fetch(
                         }
                     }
                 }
-				home {
-    				intro(markdown: true)
-  				}
                 allBooks {
                     id
                     description
                     title
+                    slug
                     seo {
                         description
                         title
@@ -47,19 +45,28 @@ const response = await fetch(
 	}
 )
 const data = (await response.json()).data
-const home = data.home
-const site = data._site.globalSeo.fallbackSeo
 const books = data.allBooks
-const title = `${site.title}: Página principal`
+const site = data._site.globalSeo.fallbackSeo
+const title = `${site.title}: Tienda`
 ---
 <style global>
     @import "../styles/global.scss";
 </style>
 
 <Layout title={title} description={site.description}>
-	<section class="lg:px-10 sm:p-2">
-		<article class="prose-base">
-			<Markdown>{home.intro}</Markdown>
-		</article>
-	</section>
+    <header class="my-10">
+        <h1 class="text-5xl font-semibold text-center">Tienda</h1>
+    </header>
+
+    {books.map(book => {
+        return (
+            <Product
+                slug={book.slug}
+                title={book.title}
+                description={book.description}
+                cover={book.cover.responsiveImage.src}
+                alt={book.cover.responsiveImage.alt}
+                tag="Libro" />      
+        )
+    })}
 </Layout>

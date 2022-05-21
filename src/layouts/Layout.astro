@@ -1,0 +1,62 @@
+---
+const { description, title } = Astro.props
+const token = import.meta.env.DATO_API_TOKEN
+const response = await fetch(
+	'https://graphql.datocms.com/',
+	{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			'Authorization': `Bearer ${token}`
+		},
+		body: JSON.stringify({
+			query: `{
+                customization {
+                    backgroundColor {
+                        hex
+                    }
+                }
+			}`
+		})
+	}
+)
+const data          = (await response.json()).data
+const customization = data.customization
+const bgColor       = `background-color: ${customization.backgroundColor.hex}`
+---
+<html dir="ltr" lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" property="og:description" content={description} />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+        <title>{title}</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700;900&display=swap" rel="stylesheet" />
+        <style global>
+            @import "../styles/global.scss";
+        </style>
+    </head>
+    <body style={bgColor}>
+        <main class="container mx-auto px-2 py-3">
+            <nav class="flex justify-between lg:mb-10 sm:mb-5 py-5 border-b border-stone-500">
+                <a class="text-xl font-semibold uppercase" href="/" title="">Dev Hayekian</a>
+                <ul class="flex leading-6 space-x-8">
+                    <li><a class="font-semibold hover:underline text=sm" href="/books" title="Sección de libros">Libros</a></li>
+                    <li><a class="font-semibold hover:underline text=sm" href="/workshops" title="Sección de talleres">Talleres</a></li>
+                    <li><a class="font-semibold hover:underline text=sm" href="/store" title="Sección de productos">Tienda</a></li>
+                    <li><a class="font-semibold hover:underline text=sm" href="/articles" title="Sección de reseñas y entrevistas">Reseñas y entrevistas</a></li>
+                    <li><a class="font-semibold hover:underline text=sm" href="/about" title="Información sobre Dev Hayekian">Sobre mí</a></li>
+                    <li><a class="font-semibold hover:underline text=sm" href="/contact" title="Información de contacto">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <slot/>
+
+            <footer>
+            </footer>
+        </main>
+    </body>
+</html>

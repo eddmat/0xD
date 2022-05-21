@@ -1,0 +1,23 @@
+---
+import { Markdown } from 'astro/components'
+
+const { title, description, alt, cover, permalink } = Astro.props
+---
+
+<style global>
+    @import "../styles/global.scss";
+</style>
+
+<article class="lg:px-10 sm:p-2 lg:flex">
+    <div class="lg:flex lg:w-[550px] sm:w-full aspect-video">
+        <a href="" title="">
+            <img class="border border-slate-400 shadow-lg rounded-sm" alt={alt} src={cover} />
+        </a>
+    </div>
+
+    <div class="lg:ml-10 prose">
+        <h2 class="mt-5">{title}</h2>
+        <slot />
+        <a class="no-underline text-white py-3 px-5 rounded-sm text-center sm:w-full block" href={permalink} title="">Ver detalles</a>
+    </div>
+</article>

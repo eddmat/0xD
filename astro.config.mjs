@@ -10,4 +10,8 @@
 export default /** @type {import('astro').AstroUserConfig} */ ({
 	dist: './dist/',
 	renderers: ['@astrojs/renderer-svelte'],
+	buildOptions: {
+		sitemap: true,
+		site: 'https://example.com/',
+	},
 });

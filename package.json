@@ -10,7 +10,10 @@
   },
   "devDependencies": {
     "@astrojs/renderer-svelte": "^0.3.1",
+    "@tailwindcss/line-clamp": "^0.3.1",
+    "@tailwindcss/typography": "^0.5.2",
     "astro": "^0.22.20",
+    "datocms-client": "^3.5.14",
     "tailwindcss": "^3.0.22"
   },
   "dependencies": {
